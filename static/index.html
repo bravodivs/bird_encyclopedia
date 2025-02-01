@@ -24,9 +24,9 @@
 
   <!--
     This section contains the form, that will be used to hit the
-    `POST /bird` API
+    `POST /birds` API
    -->
-  <form action="/bird" method="post">
+  <form action="/birds" method="post">
     Species:
     <input type="text" name="species">
     <br/> Description:
@@ -44,7 +44,7 @@
     birdTable = document.querySelector("table")
 
     /*
-    Use the browsers `fetch` API to make a GET call to /bird
+    Use the browsers `fetch` API to make a GET call to /birds
     We expect the response to be a JSON list of birds, of the
     form :
     [
@@ -52,7 +52,7 @@
       {"species":"...","description":"..."}
     ]
     */
-    fetch("/bird")
+    fetch("/birds")
       .then(response => response.json())
       .then(birdList => {
         //Once we fetch the list, we iterate over it
