@@ -1,3 +1,4 @@
+// the project contains simple form input from html, get and post queries
 package main
 
 import (

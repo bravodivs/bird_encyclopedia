@@ -8,6 +8,12 @@ import (
 )
 
 func getBird(w http.ResponseWriter, r *http.Request) {
+	bird := Bird{}
+	bird.Species = "Pigeon2"
+	bird.Description = "Common bird found in cities"
+
+	birds = append(birds, bird)
+
 	birdsJsonList, err := json.Marshal(birds)
 	fmt.Fprintf(w, "Call to get a bird")
 	if err != nil {
@@ -17,10 +23,11 @@ func getBird(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// why not using json encoding?
+	// json ecoding shud be used for json. for plain text, Write is fine
 	w.Write(birdsJsonList)
 }
 func createBird(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Call to post a bird")
+	fmt.Println("Call to post a bird")
 	bird := Bird{}
 
 	// We send all our data as HTML form data
@@ -38,9 +45,14 @@ func createBird(w http.ResponseWriter, r *http.Request) {
 
 	birds = append(birds, bird)
 
+	fmt.Print(bird)
+
 	//Finally, we redirect the user to the original HTMl page
 	// (located at `/static/`), using the http libraries `Redirect` method
 	http.Redirect(w, r, "/static/", http.StatusFound)
+
+	// w.Header().Set("Content-Type", "application/json")
+	// json.NewEncoder(w).Encode(bird)
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {

@@ -40,7 +40,7 @@
     run on each page load to fetch the list of birds
     and add them to our existing table
    -->
-  <script>
+  <!-- <script>
     birdTable = document.querySelector("table")
 
     /*
@@ -52,27 +52,40 @@
       {"species":"...","description":"..."}
     ]
     */
-    fetch("/birds")
-      .then(response => response.json())
-      .then(birdList => {
-        //Once we fetch the list, we iterate over it
-        birdList.forEach(bird => {
-          // Create the table row
-          row = document.createElement("tr")
+    document.querySelector("form").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    let formData = new URLSearchParams(new FormData(this)).toString();
 
-          // Create the table data elements for the species and
-					// description columns
-          species = document.createElement("td")
-          species.innerHTML = bird.species
-          description = document.createElement("td")
-          description.innerHTML = bird.description
+    fetch("/birds", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json()) // Expect JSON response
+    .then(data => {
+        if (data.error) {
+            console.error("Error:", data.error);
+            return;
+        }
 
-          // Add the data elements to the row
-          row.appendChild(species)
-          row.appendChild(description)
-          // Finally, add the row element to the table itself
-          birdTable.appendChild(row)
-        })
-      })
-  </script>
+        // Update the table with the new bird entry
+        let birdTable = document.querySelector("table");
+
+        let row = document.createElement("tr");
+        let species = document.createElement("td");
+        species.textContent = data.species; // Use returned species
+        let description = document.createElement("td");
+        description.textContent = data.description; // Use returned description
+
+        row.appendChild(species);
+        row.appendChild(description);
+        birdTable.appendChild(row);
+
+        // Clear the form fields
+        document.querySelector("form").reset();
+    })
+    .catch(error => console.error("Fetch error:", error));
+});
+
+  </script> -->
 </body>
+</html>
